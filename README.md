@@ -25,9 +25,8 @@
 ### ⚙️ Installation
 
 - Requires: `Python 3.8+`
-- Add Your Tokens to "tokens.txt"
-- Update The ClientID and RedirectURI in "main.py"
-- Start: `python3 main.py`
+- Add Your Tokens to "tokens.txt" - must be EV
+- Start: `python3 oauth.py`
 
 ---
 
@@ -41,8 +40,8 @@
 
 ### 🚀 Milestones
 
-- 15 Stars - More Automation
-- suggest more things for me to do cuz idk
+- 10 Stars - Threaded Option?
+- suggest other things for me to add
 
 ---
 
@@ -57,15 +56,7 @@
 ### 📜 ChangeLog
 
 ```diff
-v0.0.3 ⋮ 12/04/2022
-+ UI Fixes & Optimization
-
-v0.0.2 ⋮ 12/03/2022
-+ Added Config
-+ Added Random UA
-+ Cleaned Up Code & Reinstated Unused Codeblock
-
-v0.0.1 ⋮ 12/03/2022
+v0.0.1 ⋮ 04/09/2023
 ! Initial release
 ```
 
