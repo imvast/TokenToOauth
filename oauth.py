@@ -16,8 +16,8 @@ class Oauth:
         self.session = Client()
 
     def main(self, uri, token):
-        hd = self.session.get(uri)
-        oauth_reqstr = hd.headers.get("location")
+        # hd = self.session.get(uri)
+        oauth_reqstr = uri # hd.headers.get("location")
         refer_oauth = self.session.get(oauth_reqstr).text.split("<a href=\"")[1].split("\">")[0] # https://discord.com/oauth2/authorize?response_type=code&amp;redirect_uri=https%3A%2F%2Fgiveawaysdrops.com%2Fcallback&amp;scope=identify%20guilds.join&amp;client_id=715370284055789585
         payload = {
             "permissions": "0",
@@ -77,7 +77,7 @@ class Oauth:
         
         
 if __name__ == "__main__":
-    # url example : http://giveaways.party/login/auth
+    # url example : https://discord.com/oauth2/authorize?client_id=1083384723713314847&redirect_uri=https://restorecord.com/api/callback&response_type=code&scope=identify+guilds.join&state=1061672845593288724
     system("cls")
     print("""
      ╔═╗┌─┐┬ ┬┌┬┐┬ ┬╔╦╗┌─┐┬┌─┌─┐┌┐┌
