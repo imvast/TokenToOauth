@@ -52,7 +52,7 @@ class Oauth:
                     "accept-encoding": "gzip, deflate, br",
                     "accept-language": "en-US,en;q=0.5",
                     "connection": "keep-alive",
-                    "host": "giveaways.party",
+                    "host": locauri.replace("https://","").split("/")[0],
                     "referer": "https://discord.com/",
                     "sec-fetch-dest": "document",
                     "sec-fetch-mode": "navigate",
