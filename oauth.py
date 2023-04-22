@@ -17,8 +17,8 @@ class Oauth:
 
     def main(self, uri, token):
         # hd = self.session.get(uri)
-        oauth_reqstr = uri # hd.headers.get("location")
-        refer_oauth = self.session.get(oauth_reqstr).text.split("<a href=\"")[1].split("\">")[0] # https://discord.com/oauth2/authorize?response_type=code&amp;redirect_uri=https%3A%2F%2Fgiveawaysdrops.com%2Fcallback&amp;scope=identify%20guilds.join&amp;client_id=715370284055789585
+        oauth_reqstr = uri.split("/oauth2")[0] + "api/v9" + uri.split("/oauth2")[1] # hd.headers.get("location") # https://discord.com/api/v9/oauth2/authorize...
+        refer_oauth = uri # self.session.get(oauth_reqstr).text.split("<a href=\"")[1].split("\">")[0] # https://discord.com/oauth2/authorize...
         payload = {
             "permissions": "0",
             "authorize": True
