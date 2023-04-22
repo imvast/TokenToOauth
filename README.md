@@ -56,6 +56,10 @@
 ### 📜 ChangeLog
 
 ```diff
+v0.0.2 ⋮ 04/22/2023
++ better automation
++ restorecord fix / primary
+
 v0.0.1 ⋮ 04/09/2023
 ! Initial release
 ```
