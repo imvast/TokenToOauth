@@ -56,6 +56,10 @@
 ### 📜 ChangeLog
 
 ```diff
+v0.0.3 ⋮ 05/24/2023
++ restorecord fix again
++ code improvement
+
 v0.0.2 ⋮ 04/22/2023
 + better automation
 + restorecord fix / primary
