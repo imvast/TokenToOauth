@@ -21,8 +21,9 @@ class Oauth:
 
     def getUris(self):
         if "oauth2/authorize" in self.uri and not "api/v9" in self.uri:
-            self.oauth_reqstr = self.uri.split("/oauth2")[0] + "/api/v9" + self.uri.split("/oauth2")[1]
+            self.oauth_reqstr = self.uri.split("/oauth2")[0] + "/api/v9/oauth2" + self.uri.split("/oauth2")[1]
             self.refer_oauth = self.uri
+            print(self.oauth_reqstr)
         elif "api/v9" in self.uri:
             self.oauth_reqstr = self.uri
             self.refer_oauth = self.uri.replace("api/v9", "")
@@ -88,7 +89,7 @@ class Oauth:
         
         
 if __name__ == "__main__":
-    # url example : http://giveaways.party/login/auth  |  https://discord.com/api/v9/oauth2/authorize?...
+    # url example : http://giveaways.party/login/auth
     system("cls")
     x1 = Fore.MAGENTA
     x2 = Fore.LIGHTMAGENTA_EX
