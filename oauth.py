@@ -20,10 +20,14 @@ class Oauth:
         self.uri     = uri
 
     def getUris(self):
-        if "oauth2/authorize" in self.uri and not "api/v9" in self.uri:
+        if "https://restorecord.com/verify" in self.uri:
+            return print("RestoreCord Links Not Available Yet. Use the link it sends you to after pressing verify.")
+            uri = "https://discord.com" + monk.split('href="https://discord.com')[1].split('"')[0]
+            self.oauth_reqstr = uri.split("/oauth2")[0] + "/api/v9/oauth2" + self.uri.split("/oauth2")[1]
+            self.refer_oauth = uri
+        elif "oauth2/authorize" in self.uri and not "api/v9" in self.uri:
             self.oauth_reqstr = self.uri.split("/oauth2")[0] + "/api/v9/oauth2" + self.uri.split("/oauth2")[1]
             self.refer_oauth = self.uri
-            print(self.oauth_reqstr)
         elif "api/v9" in self.uri:
             self.oauth_reqstr = self.uri
             self.refer_oauth = self.uri.replace("api/v9", "")
