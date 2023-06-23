@@ -5,48 +5,54 @@
 @Date: 5/24/2023
 """
 
-from httpx         import Client
-from tls_client    import Session
-from os            import system
-from threading     import Thread
-from colorama      import Fore
-from terminut      import printf as print, inputf as input, init; init(colMain=Fore.MAGENTA)
+from httpx import Client
+from tls_client import Session
+from os import system
+from threading import Thread
+from colorama import Fore
+from terminut import printf as print, inputf as input, init
+init(colMain=Fore.MAGENTA)
 
 
 class Oauth:
     def __init__(self, uri) -> None:
-        self.client  = Session(client_identifier="firefox_111", random_tls_extension_order=True)        
+        self.client = Session(client_identifier="firefox_111",
+                              random_tls_extension_order=True)
         self.session = Client()
-        self.uri     = uri
+        self.uri = uri
 
     def getUris(self):
+        # feat: fix logic error
         if "https://restorecord.com/verify" in self.uri:
-            return print("RestoreCord Links Not Available Yet. Use the link it sends you to after pressing verify.")
-            uri = "https://discord.com" + monk.split('href="https://discord.com')[1].split('"')[0]
-            self.oauth_reqstr = uri.split("/oauth2")[0] + "/api/v9/oauth2" + self.uri.split("/oauth2")[1]
-            self.refer_oauth = uri
+            print(
+                "RestoreCord Links Not Available Yet. Use the link it sends you to after pressing verify.")
+            return
         elif "oauth2/authorize" in self.uri and not "api/v9" in self.uri:
-            self.oauth_reqstr = self.uri.split("/oauth2")[0] + "/api/v9/oauth2" + self.uri.split("/oauth2")[1]
+            self.oauth_reqstr = self.uri.split(
+                "/oauth2")[0] + "/api/v9/oauth2" + self.uri.split("/oauth2")[1]
             self.refer_oauth = self.uri
         elif "api/v9" in self.uri:
             self.oauth_reqstr = self.uri
             self.refer_oauth = self.uri.replace("api/v9", "")
         else:
             hd = self.session.get(self.uri)
-            self.oauth_reqstr = hd.headers.get("location") # api.v9
-            self.refer_oauth = self.session.get(self.oauth_reqstr).text.split("<a href=\"")[1].split("\">")[0] # https://discord.com/oauth2/authorize?response_type=code&amp;redirect_uri=https%3A%2F%2Fgiveawaysdrops.com%2Fcallback&amp;scope=identify%20guilds.join&amp;client_id=715370284055789585
-    
+            self.oauth_reqstr = hd.headers.get("location")  # api.v9
+            # https://discord.com/oauth2/authorize?response_type=code&amp;redirect_uri=https%3A%2F%2Fgiveawaysdrops.com%2Fcallback&amp;scope=identify%20guilds.join&amp;client_id=715370284055789585
+            self.refer_oauth = self.session.get(
+                self.oauth_reqstr).text.split("<a href=\"")[1].split("\">")[0]
+
     def submitOauth(self, res):
         if "location" in res.text:
             locauri = res.json().get("location")
-            hosturi = locauri.replace("https://", "").replace("http://", "").split("/")[0]
+            hosturi = locauri.replace(
+                "https://", "").replace("http://", "").split("/")[0]
             headers = {
-                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8","accept-encoding": "gzip, deflate, br","accept-language": "en-US,en;q=0.5","connection": "keep-alive",
+                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8", "accept-encoding": "gzip, deflate, br", "accept-language": "en-US,en;q=0.5", "connection": "keep-alive",
                 "host": hosturi,
-                "referer": "https://discord.com/","sec-fetch-dest": "document","sec-fetch-mode": "navigate","sec-fetch-site": "cross-site","sec-fetch-user": "?1", "upgrade-insecure-requests": "1","user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0"
+                "referer": "https://discord.com/", "sec-fetch-dest": "document", "sec-fetch-mode": "navigate", "sec-fetch-site": "cross-site", "sec-fetch-user": "?1", "upgrade-insecure-requests": "1", "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0"
             }
             res2 = self.session.get(locauri, headers=headers)
-            
+
             if res2.status_code in (302, 307):
                 return print("(+) Token Added To OAuth")
             else:
@@ -55,7 +61,7 @@ class Oauth:
             return print(f"(!) Invalid Token [{token[:25]}...]")
         else:
             return print(f"(!) Submit Error | {res.text}")
-            
+
     def main(self, token):
         self.getUris()
         payload = {
@@ -80,18 +86,23 @@ class Oauth:
             'Sec-Fetch-Site': 'same-origin',
             'TE': 'trailers',
         }
-        res = self.client.post(self.oauth_reqstr, headers=headers, json=payload)
+        # error handling
+        try:
+            res = self.client.post(
+                self.oauth_reqstr, headers=headers, json=payload)
+        except Exception as e:
+            return print(f"(!) Error | {e}")
         if res.status_code == 401:
             return print(f"(!) Invalid Token [{token[:25]}...]")
-        if res.status_code == 200:
+        elif res.status_code == 200:
             try:
                 return self.submitOauth(res)
             except Exception as e:
                 return print(f"(!) Error | {e}")
         else:
-            return print(f"(!) Error | {res.text}")
-        
-        
+            return print(f"(!) Error | Status Code: {res.status_code}, Response Text: {res.text}")
+
+
 if __name__ == "__main__":
     # url example : http://giveaways.party/login/auth
     system("cls")
@@ -103,11 +114,11 @@ if __name__ == "__main__":
      %s╚═╝%s┴ ┴└─┘ ┴ ┴ ┴%s ╩ %s└─┘┴ ┴└─┘┘└┘
           { %sdiscord.gg/vast%s }
     %s""" % (x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, Fore.RESET), showTimestamp=False)
-    
+
     url = input("(?) Auth URL > ")
     auth = Oauth(uri=url)
-    
-    with open('tokens.txt', 'r+') as f: 
+
+    with open('tokens.txt', 'r+') as f:
         tokens = f.read().splitlines()
     for token in tokens:
         Thread(target=auth.main, args=(token,)).start()
